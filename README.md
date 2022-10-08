@@ -35,3 +35,26 @@ Soit $G = (S, A)$.
 - Le sous graphe induit par $S' \subseteq S$ est un graphe $G_{S'} = (S', A')$ où $A' = \set{a \in A \ | \ \forall s \in a : s \in S'}$. L'ensemble des sommets du sous-graphe $G_{S'}$ est un sous-ensemble de l'ensemble des sommets de $G$ et l'ensemble des arcs de $G_{S'}$ est un sous-ensemble de l'ensemble des arcs de $G$ ayant leur origine ou leur extrémité parmi les sommets de $G_{S'}$.
 
 - Un sous graphe $G' = (S', A')$ de $G$ est couvrant si et seulement si $S = S'$.
+
+#### I.1.5 - ...
+
+### I.2 - Parcours en profondeur (Depth First Search)
+
+#### I.2.1 - Principe
+
+Plutôt que de choisir un sommet quelconque de la bordure de l'ensemble des sommets visités à chaque étape, on effectue un parcours de proche en proche, récursif, où pour chaque sommet que l'on visite on effectue récursivement un parcours complet à partir de l'un de ses voisins non visités avant d'éventuellement relancer des parcours à partir des autres voisins s'ils n'ont pas été visités dans les appels récursifs.
+
+#### I.2.2 - Implémentation
+
+Puisqu'on a besoin d'accéder efficacement aux voisins d'un sommet, on prend la représentation par listes d'adjacence.
+
+```ocaml
+type graphe = int list array
+let dfs (g: graphe) (s: int) (traitement: int->unit): unit =
+  let vu = Array.make(Array.length g) false in
+  let rec visite (s: int) : unit =
+    traitement s;
+    List.iter (fun s' -> if not vu.(s') then begin vu.(s') <- true; visite s' end) g.(s)
+  in vu.(s) <- true;
+  visiste s
+```
